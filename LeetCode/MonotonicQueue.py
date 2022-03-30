@@ -21,13 +21,22 @@ class Solution:
         return
 
     def monotonicQueuePush(self, q, val):
+        """
+        When pushing val to the M-Queue,
+        as val is the latest added, it is also the latest to be removed.
+        Then no need to store anything smaller than it, as the largest will
+        be val (or the one greater than it) until it is removed
+        :param q:
+        :param val:
+        :return:
+        """
         while q and q[0] < val:
             q.popleft()
         q.appendleft(val)
         return
 
 if __name__ == '__main__':
-    input, k = [9,10,9,-7,-4,-8,2,-6], 5
+    input, k = [9,10,8,-7,-4,-8,2,-6], 3
     sol = Solution()
     res = sol.maxSlidingWindow(input, k)
     print(res)
