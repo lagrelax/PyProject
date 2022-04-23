@@ -7,24 +7,45 @@ class TreeNode:
         self.left = None
         self.right = None
 
-def initBinaryTree(vals: List[int]) -> TreeNode:
-    """ Order: Node, Left, Right"""
+def initBinaryTree2(vals: List[int]) -> TreeNode:
+    """ Pre-Order: Node, Left, Right"""
     nums = collections.deque(vals)
     tree = TreeNode(nums.popleft())
     nodes = collections.deque([tree])
     while nums:
         node = nodes[-1]
-        new_node = TreeNode(nums.popleft())
+        new_val = nums.popleft()
+        new_node = TreeNode(new_val)
         if not node.left:
             node.left = new_node
-            nodes.appendleft(new_node)
+            if new_node:
+                nodes.appendleft(new_node)
             continue
         if not node.right:
             node.right = new_node
-            nodes.appendleft(new_node)
+            if new_node:
+                nodes.appendleft(new_node)
             nodes.pop()
     return tree
 
+
+def initBinaryTree(vals: List[int], idx: int = 0) -> TreeNode:
+    """
+    Better way to init BT by only looking at the vals
+    :param vals:
+    :param idx:
+    :return:
+    """
+    if idx >= len(vals):
+        return None
+
+    node = TreeNode(vals[idx])
+    if 2*idx+1 < len(vals):
+        node.left = initBinaryTree(vals, 2*idx+1)
+    if 2 * idx + 2 < len(vals):
+        node.right = initBinaryTree(vals, 2 * idx + 2)
+
+    return node
 
 def traverseBinaryTreePreOrder(root: TreeNode, res: List[int]) -> None:
     if root is None:
