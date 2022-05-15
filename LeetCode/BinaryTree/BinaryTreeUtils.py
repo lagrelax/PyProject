@@ -1,5 +1,4 @@
-from typing import *
-import collections
+from utils import *
 
 class TreeNode:
     def __init__(self, val = 0):
